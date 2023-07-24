@@ -1,5 +1,5 @@
 {
-    "name": "ludeeus/integration_blueprint",
+    "name": "IsakNyberg/hacs-permobilf",
     "image": "mcr.microsoft.com/vscode/devcontainers/python:0-3.10-bullseye",
     "postCreateCommand": "scripts/setup",
     "forwardPorts": [
