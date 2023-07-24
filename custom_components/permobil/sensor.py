@@ -1,7 +1,6 @@
 """Platform for sensor integration."""
 from __future__ import annotations
-
-from datetime import datetime, timedelta
+from datetime import timedelta
 import logging
 
 from mypermobil import (
@@ -15,7 +14,6 @@ from mypermobil import (
     BATTERY_STATE_OF_CHARGE,
     BATTERY_STATE_OF_HEALTH,
     POSITIONS_CURRENT,
-    PRODUCT_BY_ID_UPDATED_AT,
     RECORDS_DISTANCE,
     RECORDS_SEATING,
     USAGE_ADJUSTMENTS,
@@ -29,7 +27,7 @@ from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
-#from homeassistant.components.datetime import DateTimeEntity
+
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
@@ -46,7 +44,6 @@ from homeassistant.const import (
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
-import homeassistant.util.dt as dt_util
 
 from .const import (
     API,
@@ -104,7 +101,6 @@ async def async_setup_entry(
         PermobilWattHoursLeftSensor(p_api),
         PermobilUsageAdjustmentsSensor(p_api),
         PermobilRecordAdjustmentsSensor(p_api),
-#        PermobilLastUpdateSensor(p_api),
         PermobilPositionSensor(p_api),
     ]
 
@@ -366,28 +362,6 @@ class PermobilRecordAdjustmentsSensor(PermobilGenericSensor):
     def __init__(self, permobil: MyPermobil) -> None:
         """Initialize the sensor."""
         super().__init__(permobil, RECORDS_SEATING)
-
-
-#class PermobilLastUpdateSensor(DateTimeEntity):
-#    """Timestamp of the last update from the API."""
-#
-#    _attr_name = "Permobil Last Update"
-#
-#    def __init__(self, permobil: MyPermobil) -> None:
-#        """Initialize the sensor."""
-#        super().__init__()
-#        self._permobil = permobil
-#        self._item = PRODUCT_BY_ID_UPDATED_AT
-#
-#    async def async_update(self) -> None:
-#        """Get last update time."""
-#        try:
-#            resp = await self._permobil.request_item(self._item)
-#            self._attr_native_value = datetime.strptime(
-#                resp, "%Y-%m-%dT%H:%M:%S.%fZ"
-#            ).replace(tzinfo=dt_util.UTC)
-#        except MyPermobilException:
-#            self._attr_native_value = None
 
 
 class PermobilPositionSensor(PermobilGenericSensor):
